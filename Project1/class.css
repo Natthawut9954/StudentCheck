@@ -1,0 +1,133 @@
+/* ฟอนต์แนะนำ (Prompt หรือ Sarabun) */
+body {
+  font-family: 'Prompt', sans-serif;
+  background-color: #f4fdf6;
+  color: #2e7d32;
+  margin: 0;
+  padding: 0;
+}
+
+/* ส่วนหัว */
+.header {
+  background-color: #43a047;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* แถบควบคุม */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 15px;
+  background-color: #e8f5e9;
+  border-bottom: 1px solid #c8e6c9;
+  justify-content: space-around;
+}
+
+.controls select,
+.controls input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #a5d6a7;
+  border-radius: 6px;
+  font-size: 16px;
+  min-width: 180px;
+}
+
+.controls button {
+  background-color: #66bb6a;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.controls button:hover {
+  background-color: #388e3c;
+}
+
+/* ตารางรายชื่อ */
+table {
+  font-size: medium;
+  width: 95%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+table th, table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #c8e6c9;
+}
+
+table th {
+  background-color: #a5d6a7;
+  color: #1b5e20;
+}
+
+table tr:hover {
+  background-color: #f1f8e9;
+}
+
+/* ปุ่มเช็คชื่อ */
+.status-button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.status-present {
+  background-color: #81c784;
+  color: white;
+}
+
+.status-absent {
+  background-color: #ef5350;
+  color: white;
+}
+
+/* ปุ่ม export */
+.export-btn {
+  display: block;
+  margin: 20px auto;
+  background-color: #2e7d32;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  background-color: #1b5e20;
+}
+.button {
+  background-color: #66bb6a;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+  }
+}

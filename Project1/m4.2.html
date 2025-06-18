@@ -1,0 +1,144 @@
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="class.css">
+    <body>
+        
+    <div class="header">
+  <h2>🏫 ระบบเช็คชื่อนักเรียนหน้าเสาธงชั้น ม.4/2</h2>
+</div>
+
+<div class="controls">
+
+  <input type="text" placeholder="ค้นหาชื่อนักเรียน...">
+  <a href="index.html" class="button">กลับหน้าแรก</a>
+
+ 
+</div>
+<table id="attendanceTable">
+  <thead>
+    <tr>
+      <th>ลำดับ</th>
+      <th>ชื่อ</th>
+      <th>สถานะ</th>
+      <th>หมายเหตุ</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr><td>1</td><td>นาย สุชัจจ์ เตือนจันทึก</td><td><select><option>✅ มา</option><option>❌ ขาด</option><option>📝 ลา</option><option>⏰ มาสาย</option></select></td><td><input type="text" placeholder="หมายเหตุ..."></td></tr>
+<tr><td>2</td><td>นาย กนกชาญ ราชรินทร์</td><td><select><option>✅ มา</option><option>❌ ขาด</option><option>📝 ลา</option><option>⏰ มาสาย</option></select></td><td><input type="text" placeholder="หมายเหตุ..."></td></tr>
+<tr><td>3</td><td>นางสาว พีระภัทร ชัยชนะ</td><td><select><option>✅ มา</option><option>❌ ขาด</option><option>📝 ลา</option><option>⏰ มาสาย</option></select></td><td><input type="text" placeholder="หมายเหตุ..."></td></tr>
+<tr><td>4</td><td>นางสาว นฤเนตร ยวนนา</td><td><select><option>✅ มา</option><option>❌ ขาด</option><option>📝 ลา</option><option>⏰ มาสาย</option></select></td><td><input type="text" placeholder="หมายเหตุ..."></td></tr>
+<tr><td>5</td><td>นางสาว ปาณิสรา ศิริรัมย์</td><td><select><option>✅ มา</option><option>❌ ขาด</option><option>📝 ลา</option><option>⏰ มาสาย</option></select></td><td><input type="text" placeholder="หมายเหตุ..."></td></tr>
+<tr><td>6</td><td>นางสาว นภาวรรณ ศักดา</td><td><select><option>✅ มา</option><option>❌ ขาด</option><option>📝 ลา</option><option>⏰ มาสาย</option></select></td><td><input type="text" placeholder="หมายเหตุ..."></td></tr>
+
+
+
+
+
+
+
+  </tbody>
+</table>
+
+<div class="controls">
+<button onclick="exportTableToExcel()">ส่งออก Excel</button>
+<button onclick="saveToGoogleSheet()">📤 บันทึกข้อมูลไปยัง Google Sheet</button>
+
+</div>
+<script>
+  // ฟังก์ชัน toggle ทีละปุ่ม (เดิม)
+  document.querySelectorAll('.status-button').forEach(button => {
+    button.addEventListener('click', () => {
+      if (button.classList.contains('status-present')) {
+        button.classList.remove('status-present');
+        button.classList.add('status-absent');
+        button.textContent = '❌ ขาด';
+      } else {
+        button.classList.remove('status-absent');
+        button.classList.add('status-present');
+        button.textContent = '✅ มา';
+      }
+    });
+  });
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+function exportTableToExcel() {
+  const table = document.querySelector("#attendanceTable");
+  const rows = table.querySelectorAll("tbody tr");
+
+  const data = [["ลำดับ", "ชื่อ - สกุล", "สถานะ", "หมายเหตุ"]];
+
+  rows.forEach(row => {
+    const index = row.querySelector("td:nth-child(1)").textContent.trim();
+    const name = row.querySelector("td:nth-child(2)").textContent.trim();
+    const status = row.querySelector("select")?.value || "";
+    const note = row.querySelector("input")?.value || "";
+    data.push([index, name, status, note]);
+  });
+
+  const worksheet = XLSX.utils.aoa_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "เช็คชื่อ");
+
+  XLSX.writeFile(workbook, "รายงานเช็คชื่อ ม.4/2.xlsx");
+}
+async function saveToGoogleSheet() {
+  // **แทนที่ด้วย Web app URL ที่คุณได้จาก Apps Script Deploy**
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxGUaaFzNmw6xoHR3yWUSJgGeKrgtgUX8-ryIhNuZdPvzJYpgEN6bAPKJeIB6DkjAjp/exec'; 
+
+  const table = document.querySelector("#attendanceTable");
+  const rows = table.querySelectorAll("tbody tr");
+
+  const dataToSave = [];
+  rows.forEach(row => {
+    const index = row.querySelector("td:nth-child(1)").textContent.trim();
+    const name = row.querySelector("td:nth-child(2)").textContent.trim();
+    const status = row.querySelector("select")?.value || "";
+    const note = row.querySelector("input")?.value || "";
+    dataToSave.push({ index, name, status, note });
+  });
+
+  try {
+    const response = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors', // สำคัญมากสำหรับ Apps Script เพื่อหลีกเลี่ยง CORS error
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataToSave),
+    });
+
+    // เนื่องจากใช้ 'no-cors' mode, response.json() จะไม่ทำงานตรงๆ
+    // แต่ Apps Script จะยังคงบันทึกข้อมูลได้
+    alert('บันทึกข้อมูลไปยัง Google Sheet เรียบร้อยแล้ว!');
+
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+    alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล. โปรดตรวจสอบ Console หรือการตั้งค่า Apps Script ของคุณ');
+  }
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ค้นหาชื่อนักเรียนแบบทันที
+document.querySelector('input[placeholder="ค้นหาชื่อนักเรียน..."]').addEventListener('input', function() {
+  const searchText = this.value.toLowerCase();
+  const rows = document.querySelectorAll("#attendanceTable tbody tr");
+
+  rows.forEach(row => {
+    const name = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+    if (name.includes(searchText)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+});
+</script>
+
+
+</body>
+</html>
