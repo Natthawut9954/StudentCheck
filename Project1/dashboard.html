@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แดชบอร์ดการเช็คชื่อ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+    .dashboard-container {
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .charts {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    canvas {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <h1>📊 แดชบอร์ดการเช็คชื่อนักเรียน</h1>
+
+    <div class="charts">
+      <canvas id="weeklyChart" height="200"></canvas>
+      <canvas id="monthlyChart" height="200"></canvas>
+      <canvas id="yearlyChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // ข้อมูลจำลอง
+    const weeklyData = {
+      labels: ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัส', 'ศุกร์'],
+      datasets: [{
+        label: 'จำนวนคนมาเรียน',
+        data: [30, 28, 32, 29, 31],
+        backgroundColor: '#4caf50'
+      }]
+    };
+
+    const monthlyData = {
+      labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.'],
+      datasets: [{
+        label: 'ค่าเฉลี่ยคนมาเรียน/เดือน',
+        data: [29, 30, 28, 27, 31, 30],
+        backgroundColor: '#2196f3'
+      }]
+    };
+
+    const yearlyData = {
+      labels: ['2565', '2566', '2567'],
+      datasets: [{
+        label: 'ค่าเฉลี่ยนักเรียนมาเรียน/ปี',
+        data: [28.5, 30.1, 29.4],
+        backgroundColor: '#ff9800'
+      }]
+    };
+
+    new Chart(document.getElementById('weeklyChart'), {
+      type: 'bar',
+      data: weeklyData,
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'สรุปการเช็คชื่อรายสัปดาห์'
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('monthlyChart'), {
+      type: 'line',
+      data: monthlyData,
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'สรุปการเช็คชื่อรายเดือน'
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('yearlyChart'), {
+      type: 'bar',
+      data: yearlyData,
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'สรุปการเช็คชื่อรายปี'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
