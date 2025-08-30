@@ -1,0 +1,172 @@
+/* --- การตั้งค่าโดยรวมและตัวแปรสี (CSS Variables) --- */
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #FD7E14;
+    --background-color: #F8F9FA;
+    --surface-color: #FFFFFF;
+    --text-color: #212529;
+    --heading-font: 'Georgia', serif;
+    --body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* --- สไตล์พื้นฐานของ Body --- */
+body {
+    font-family: var(--body-font);
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+h1, h2, h3 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+}
+
+/* --- ส่วนหัวและท้ายเว็บ (Header & Footer) --- */
+header, footer {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+footer {
+    padding: 1.5rem 1rem;
+    margin-top: 30px;
+}
+
+header h1 {
+    color: #fff;
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+/* --- เมนูนำทาง (Navigation) --- */
+nav ul {
+    list-style: none;
+    background-color: #006ce0; /* สีน้ำเงินเข้มขึ้นเล็กน้อย */
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 15px 25px;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease; /* เพิ่ม transition */
+}
+
+nav ul li a:hover {
+    background-color: var(--secondary-color); /* เปลี่ยนเป็นสีส้มเมื่อเมาส์ชี้ */
+    color: #fff;
+}
+
+/* --- ส่วนเนื้อหาหลัก (Main Content) --- */
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+section {
+    background-color: var(--surface-color);
+    margin-bottom: 25px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* เงาที่ดูนุ่มนวลขึ้น */
+    border-left: 5px solid var(--primary-color); /* เพิ่มแถบสีด้านซ้าย */
+}
+
+/* --- สไตล์สำหรับลิงก์ในเนื้อหา --- */
+main a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+main a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* --- สไตล์สำหรับรูปภาพ --- */
+main img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 25px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+/* --- สไตล์สำหรับเมนูที่ถูกเลือก (Active Menu) --- */
+nav ul li a.active {
+    background-color: var(--secondary-color); /* ใช้สีส้มสด */
+    font-weight: bold; /* ทำให้ตัวอักษรหนาขึ้น */
+    cursor: default; /* เปลี่ยนเคอร์เซอร์เป็นลูกศรปกติ เพราะคลิกไปก็อยู่ที่เดิม */
+}
+
+/* ปรับปรุงสไตล์ hover เล็กน้อย ไม่ให้ทับกับ active */
+nav ul li a:not(.active):hover {
+    background-color: #0056b3; /* สีน้ำเงินเข้มเมื่อ hover ลิงก์ที่ไม่ active */
+    color: #fff;
+}
+/* --- สไตล์สำหรับหน้า Quiz --- */
+#quiz-container {
+    border-left-color: var(--secondary-color); /* ใช้สีส้มสำหรับหน้านี้ */
+}
+
+#answer-options label {
+    display: block;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#answer-options label:hover {
+    background-color: #e2e6ea;
+}
+
+#submit-btn {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    font-size: 16px;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* สไตล์สำหรับแสดงผลลัพธ์ */
+#result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.correct {
+    color: #28a745; /* สีเขียว */
+}
+
+.incorrect {
+    color: #dc3545; /* สีแดง */
+}

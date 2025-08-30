@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบ - แหล่งเรียนรู้ทฤษฎีดนตรี</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>ทฤษฎีดนตรีสำหรับทุกคน</h1></header>
+    
+    <nav>
+        <ul>
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="scales.html">สเกล</a></li>
+            <li><a href="chords.html">คอร์ด</a></li>
+            <li><a href="intervals.html">ขั้นคู่</a></li>
+            <li><a href="rhythm.html">จังหวะ</a></li>
+            <li><a href="reading-music.html">การอ่านโน้ต</a></li>
+            <li><a href="quiz.html" class="active">แบบทดสอบ</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="quiz-container">
+            <h2 id="quiz-header">แบบทดสอบความรู้</h2>
+            <p id="question">กำลังโหลดคำถาม...</p>
+            
+            <div id="answer-options">
+                </div>
+            
+            <button id="submit-btn">ส่งคำตอบ</button>
+            <button id="next-btn" style="display: none;">คำถามถัดไป</button>
+            
+            <p id="result"></p>
+        </section>
+    </main>
+
+    <footer><p>&copy; จัดทำโดย นายนัทธวุฒิ คร่ำสุข ส.2 สท. - แหล่งเรียนรู้ทฤษฎีดนตรี</p></footer>
+
+    <script>
+        // 1. --- คลังคำถาม (Question Bank) ---
+        const questions = [
+            {
+                question: "คำถามที่ 1: คอร์ด C Major ประกอบด้วยโน้ตอะไรบ้าง?",
+                answers: [
+                    { text: "C - D - E", value: "cde" },
+                    { text: "C - E - G", value: "ceg" },
+                    { text: "C - F - A", value: "cfa" },
+                    { text: "C - G - B", value: "cgb" }
+                ],
+                correctAnswer: "ceg"
+            },
+            {
+                question: "คำถามที่ 2: Time Signature 4/4 หมายถึงอะไร?",
+                answers: [
+                    { text: "1 ห้องมี 3 จังหวะ", value: "3beats" },
+                    { text: "โน้ตตัวดำยาว 4 จังหวะ", value: "4beatnote" },
+                    { text: "1 ห้องมี 4 จังหวะ", value: "4beats" },
+                    { text: "มี 4 ห้องใน 1 เพลง", value: "4bars" }
+                ],
+                correctAnswer: "4beats"
+            },
+            {
+                question: "คำถามที่ 3: สเกลใดที่ให้ความรู้สึกสดใส ร่าเริง?",
+                answers: [
+                    { text: "Major Scale", value: "major" },
+                    { text: "Minor Scale", value: "minor" },
+                    { text: "Blues Scale", value: "blues" },
+                    { text: "Chromatic Scale", value: "chromatic" }
+                ],
+                correctAnswer: "major"
+            }
+        ];
+
+        // 2. --- อ้างอิง Element และตัวแปรที่จำเป็น ---
+        const questionText = document.getElementById('question');
+        const answerOptions = document.getElementById('answer-options');
+        const submitButton = document.getElementById('submit-btn');
+        const nextButton = document.getElementById('next-btn');
+        const resultText = document.getElementById('result');
+        const quizHeader = document.getElementById('quiz-header');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // 3. --- ฟังก์ชันหลัก ---
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.style.display = 'none';
+            submitButton.style.display = 'block';
+            quizHeader.textContent = "แบบทดสอบความรู้";
+            showQuestion();
+        }
+
+        function showQuestion() {
+            resultText.textContent = ""; // เคลียร์ผลลัพธ์เก่า
+            nextButton.style.display = 'none'; // ซ่อนปุ่ม "ถัดไป"
+            submitButton.style.display = 'block'; // แสดงปุ่ม "ส่งคำตอบ"
+
+            let currentQuestion = questions[currentQuestionIndex];
+            questionText.textContent = currentQuestion.question;
+            
+            answerOptions.innerHTML = ""; // เคลียร์ตัวเลือกเก่า
+            currentQuestion.answers.forEach(answer => {
+                const label = document.createElement('label');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'answer';
+                radio.value = answer.value;
+                
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(answer.text));
+                answerOptions.appendChild(label);
+            });
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                resultText.textContent = "กรุณาเลือกคำตอบก่อนนะครับ!";
+                resultText.className = "incorrect";
+                return;
+
+            }
+
+            if (selectedOption.value === questions[currentQuestionIndex].correctAnswer) {
+                score++;
+                resultText.textContent = "ถูกต้องครับ! 🥳";
+                resultText.className = "correct";
+                submitButton.style.display = 'none'; // ซ่อนปุ่ม "ส่งคำตอบ"
+                nextButton.style.display = 'block'; // แสดงปุ่ม "ถัดไป"
+            } else {
+                resultText.textContent = `ยังไม่ถูกครับ คำตอบที่ถูกต้องคือ "${questions[currentQuestionIndex].answers.find(a => a.value === questions[currentQuestionIndex].correctAnswer).text}"`;
+                resultText.className = "incorrect";
+                submitButton.style.display = 'none';
+                nextButton.style.display = 'block';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                // จบ Quiz
+                showScore();
+            }
+        }
+
+        function showScore() {
+            questionText.textContent = "คุณทำแบบทดสอบเสร็จแล้ว!";
+            answerOptions.innerHTML = "";
+            resultText.textContent = `คุณได้ ${score} คะแนน จากทั้งหมด ${questions.length} คะแนน`;
+            resultText.className = "";
+            submitButton.style.display = 'none';
+            nextButton.textContent = 'ลองอีกครั้ง';
+            nextButton.style.display = 'block';
+            nextButton.onclick = startQuiz; // เมื่อกด "ลองอีกครั้ง" ให้เริ่ม Quiz ใหม่
+        }
+
+
+        // 4. --- การเชื่อมต่อ Event Listeners ---
+        submitButton.addEventListener('click', checkAnswer);
+        nextButton.addEventListener('click', nextQuestion);
+
+        // 5. --- เริ่ม Quiz ทันทีที่หน้าเว็บโหลด ---
+        startQuiz();
+
+    </script>
+</body>
+</html>
